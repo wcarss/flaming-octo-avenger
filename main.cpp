@@ -25,6 +25,18 @@ int main()
                 if (key_code == Keyboard::Q || key_code == Keyboard::Escape) {
                     window.close();
                 }
+                if (key_code == Keyboard::W) {
+                    shape.move(0.0f, -1.0f);
+                }
+                if (key_code == Keyboard::S) {
+                    shape.move(0.0f, 1.0f);
+                }
+                if (key_code == Keyboard::A) {
+                    shape.move(-1.0f, 0.0f);
+                }
+                if (key_code == Keyboard::D) {
+                    shape.move(1.0f, 0.0f);
+                }
             }
         }
 
