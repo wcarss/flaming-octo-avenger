@@ -6,6 +6,7 @@ int main()
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
     bool key_pressed;
+    int key_code;
 
     while (window.isOpen())
     {
@@ -17,7 +18,8 @@ int main()
             }
             key_pressed = event.type == sf::Event::KeyPressed;
             if (key_pressed) {
-                if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::Escape) {
+                key_code = event.key.code;
+                if (key_code == sf::Keyboard::Q || key_code == sf::Keyboard::Escape) {
                     window.close();
                 }
             }
