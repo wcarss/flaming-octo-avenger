@@ -20,9 +20,9 @@ void change_velocity(float& velocity, float acceleration=1.5, float limit=20)
 
 void update_position(CircleShape& shape, Vector2f velocity) {
     float min_x_position = 0;
-    float max_x_position = 800;
+    float max_x_position = 700;
     float min_y_position = 0;
-    float max_y_position = 600;
+    float max_y_position = 500;
     Vector2f new_position(shape.getPosition() + velocity);
 
     if (new_position.x > max_x_position) {
