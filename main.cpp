@@ -1,25 +1,27 @@
 #include <SFML/Graphics.hpp>
 
+using namespace sf;
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Flaming Octo Avenger!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
+    CircleShape shape(100.f);
+    shape.setFillColor(Color::Green);
     bool key_pressed;
     int key_code;
 
     while (window.isOpen())
     {
-        sf::Event event;
+        Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == Event::Closed) {
                 window.close();
             }
-            key_pressed = event.type == sf::Event::KeyPressed;
+            key_pressed = event.type == Event::KeyPressed;
             if (key_pressed) {
                 key_code = event.key.code;
-                if (key_code == sf::Keyboard::Q || key_code == sf::Keyboard::Escape) {
+                if (key_code == Keyboard::Q || key_code == Keyboard::Escape) {
                     window.close();
                 }
             }
