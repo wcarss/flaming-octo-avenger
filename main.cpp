@@ -58,8 +58,8 @@ int main()
     CircleShape shape(50.f);
     bool key_pressed;
     int key_code;
-    float acceleration = 1.5f;
-    float maximum_velocity = 20.f;
+    float acceleration = 0.4f;
+    float maximum_velocity = 15.f;
     Vector2f velocity(0,0);
     shape.setFillColor(Color::Green);
     shape.setPosition(200.f, 200.f);
