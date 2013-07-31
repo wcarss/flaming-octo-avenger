@@ -58,9 +58,11 @@ int main()
     CircleShape shape(50.f);
     bool key_pressed;
     int key_code;
+    float acceleration = 1.5f;
+    float maximum_velocity = 20.f;
     Vector2f velocity(0,0);
     shape.setFillColor(Color::Green);
-    shape.setPosition(200.0f, 200.0f);
+    shape.setPosition(200.f, 200.f);
 
     while (window.isOpen())
     {
@@ -77,16 +79,16 @@ int main()
                     window.close();
                 }
                 if (key_code == Keyboard::W) {
-                    change_velocity(velocity.y, -1.5, -20);
+                    change_velocity(velocity.y, -acceleration, -maximum_velocity);
                 }
                 if (key_code == Keyboard::S) {
-                    change_velocity(velocity.y);
+                    change_velocity(velocity.y, acceleration, maximum_velocity);
                 }
                 if (key_code == Keyboard::A) {
-                    change_velocity(velocity.x, -1.5, -20);
+                    change_velocity(velocity.x, -acceleration, -maximum_velocity);
                 }
                 if (key_code == Keyboard::D) {
-                    change_velocity(velocity.x);
+                    change_velocity(velocity.x, acceleration, maximum_velocity);
                 }
             }
         }
