@@ -11,44 +11,35 @@ void decrease_x_velocity(float& x_velocity);
 void update_position(CircleShape& shape, Vector2f velocity);
 void velocity_falloff(Vector2f& velocity);
 
+void change_velocity(float& velocity, float acceleration=1.5, float limit=20)
+{
+    velocity += acceleration;
+    if (limit > 0 && velocity > limit) {
+        velocity = limit;
+    }
+    if (limit <= 0 && velocity < limit) {
+        velocity = limit;
+    }
+}
+
 void increase_y_velocity(float& y_velocity)
 {
-    float y_acceleration = 1.5;
-    float max_y_velocity = 20;
-    y_velocity += y_acceleration;
-    if (y_velocity > max_y_velocity) {
-        y_velocity = max_y_velocity;
-    }
+    change_velocity(y_velocity, -1.5, -20);
 }
 
 void decrease_y_velocity(float& y_velocity)
 {
-    float y_acceleration = 1.5;
-    float max_y_velocity = 20;
-    y_velocity -= y_acceleration;
-    if (y_velocity < -max_y_velocity) {
-        y_velocity = -max_y_velocity;
-    }
+    change_velocity(y_velocity);
 }
 
 void increase_x_velocity(float& x_velocity)
 {
-    float x_acceleration = 1.5;
-    float max_x_velocity = 20;
-    x_velocity += x_acceleration;
-    if (x_velocity > max_x_velocity) {
-        x_velocity = max_x_velocity;
-    }
+    change_velocity(x_velocity);
 }
 
 void decrease_x_velocity(float& x_velocity)
 {
-    float x_acceleration = 1.5;
-    float max_x_velocity = 20;
-    x_velocity -= x_acceleration;
-    if (x_velocity < -max_x_velocity) {
-        x_velocity = -max_x_velocity;
-    }
+    change_velocity(x_velocity, -1.5, -20);
 }
 
 void update_position(CircleShape& shape, Vector2f velocity) {
@@ -56,8 +47,6 @@ void update_position(CircleShape& shape, Vector2f velocity) {
     float max_x_position = 800;
     float min_y_position = 0;
     float max_y_position = 600;
-cout<<"1 shape is ("<<shape.getPosition().x<<","<<shape.getPosition().y<<")"<<endl;
-cout<<"velocity is ("<<velocity.x<<","<<velocity.y<<")"<<endl;
     Vector2f new_position(shape.getPosition() + velocity);
 
     if (new_position.x > max_x_position) {
@@ -73,9 +62,7 @@ cout<<"velocity is ("<<velocity.x<<","<<velocity.y<<")"<<endl;
         new_position.y = min_y_position;
     }
 
-cout<<"2 shape is ("<<shape.getPosition().x<<","<<shape.getPosition().y<<")"<<endl;
     shape.setPosition(new_position);
-cout<<"3 shape is ("<<shape.getPosition().x<<","<<shape.getPosition().y<<")"<<endl;
 }
 
 void velocity_falloff(Vector2f& velocity) {
