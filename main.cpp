@@ -7,6 +7,7 @@ int main()
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     CircleShape shape(50.f);
     shape.setFillColor(Color::Green);
+    shape.setPosition(200.0f, 200.0f);
     bool key_pressed;
     int key_code;
 
