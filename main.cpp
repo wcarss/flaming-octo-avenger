@@ -10,6 +10,7 @@ int main()
     shape.setPosition(200.0f, 200.0f);
     bool key_pressed;
     int key_code;
+    float x_speed = 0, y_speed = 0;
 
     while (window.isOpen())
     {
@@ -26,18 +27,25 @@ int main()
                     window.close();
                 }
                 if (key_code == Keyboard::W) {
-                    shape.move(0.0f, -1.0f);
+                    y_speed -= 3;
                 }
                 if (key_code == Keyboard::S) {
-                    shape.move(0.0f, 1.0f);
+                    y_speed += 3;
                 }
                 if (key_code == Keyboard::A) {
-                    shape.move(-1.0f, 0.0f);
+                    x_speed -= 3;
                 }
                 if (key_code == Keyboard::D) {
-                    shape.move(1.0f, 0.0f);
+                    x_speed += 3;
                 }
+                shape.move(x_speed, y_speed);
             }
+            x_speed /= 1.2f;
+            y_speed /= 1.2f;
+            if (x_speed > -0.001 && x_speed < 0.001)
+                x_speed = 0;
+            if (y_speed > -0.001 && y_speed < 0.001)
+                y_speed = 0;
         }
 
         window.clear(Color(30,30,30));
