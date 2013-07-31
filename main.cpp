@@ -4,10 +4,6 @@
 using namespace sf;
 using namespace std;
 
-void increase_y_velocity(float& y_velocity);
-void decrease_y_velocity(float& y_velocity);
-void increase_x_velocity(float& x_velocity);
-void decrease_x_velocity(float& x_velocity);
 void update_position(CircleShape& shape, Vector2f velocity);
 void velocity_falloff(Vector2f& velocity);
 
@@ -20,26 +16,6 @@ void change_velocity(float& velocity, float acceleration=1.5, float limit=20)
     if (limit <= 0 && velocity < limit) {
         velocity = limit;
     }
-}
-
-void increase_y_velocity(float& y_velocity)
-{
-    change_velocity(y_velocity, -1.5, -20);
-}
-
-void decrease_y_velocity(float& y_velocity)
-{
-    change_velocity(y_velocity);
-}
-
-void increase_x_velocity(float& x_velocity)
-{
-    change_velocity(x_velocity);
-}
-
-void decrease_x_velocity(float& x_velocity)
-{
-    change_velocity(x_velocity, -1.5, -20);
 }
 
 void update_position(CircleShape& shape, Vector2f velocity) {
@@ -101,16 +77,16 @@ int main()
                     window.close();
                 }
                 if (key_code == Keyboard::W) {
-                    increase_y_velocity(velocity.y);
+                    change_velocity(velocity.y, -1.5, -20);
                 }
                 if (key_code == Keyboard::S) {
-                    decrease_y_velocity(velocity.y);
+                    change_velocity(velocity.y);
                 }
                 if (key_code == Keyboard::A) {
-                    decrease_x_velocity(velocity.x);
+                    change_velocity(velocity.x, -1.5, -20);
                 }
                 if (key_code == Keyboard::D) {
-                    increase_x_velocity(velocity.x);
+                    change_velocity(velocity.x);
                 }
             }
         }
