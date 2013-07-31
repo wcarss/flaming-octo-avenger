@@ -5,7 +5,7 @@ using namespace sf;
 int main()
 {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
-    CircleShape shape(100.f);
+    CircleShape shape(50.f);
     shape.setFillColor(Color::Green);
     bool key_pressed;
     int key_code;
@@ -27,7 +27,7 @@ int main()
             }
         }
 
-        window.clear();
+        window.clear(Color(30,30,30));
         window.draw(shape);
         window.display();
     }
