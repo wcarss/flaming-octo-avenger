@@ -78,19 +78,19 @@ int main()
                 if (key_code == Keyboard::Q || key_code == Keyboard::Escape) {
                     window.close();
                 }
-                if (key_code == Keyboard::W) {
-                    change_velocity(velocity.y, -acceleration, -maximum_velocity);
-                }
-                if (key_code == Keyboard::S) {
-                    change_velocity(velocity.y, acceleration, maximum_velocity);
-                }
-                if (key_code == Keyboard::A) {
-                    change_velocity(velocity.x, -acceleration, -maximum_velocity);
-                }
-                if (key_code == Keyboard::D) {
-                    change_velocity(velocity.x, acceleration, maximum_velocity);
-                }
             }
+        }
+        if (Keyboard::isKeyPressed(Keyboard::W)) {
+            change_velocity(velocity.y, -acceleration, -maximum_velocity);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::S)) {
+            change_velocity(velocity.y, acceleration, maximum_velocity);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::A)) {
+            change_velocity(velocity.x, -acceleration, -maximum_velocity);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::D)) {
+            change_velocity(velocity.x, acceleration, maximum_velocity);
         }
 
         velocity_falloff(velocity);
