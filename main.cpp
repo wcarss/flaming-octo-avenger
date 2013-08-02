@@ -100,7 +100,6 @@ int main()
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     Player player(50.f);
     RectangleShape rectangle(Vector2f(800.f, 50.f));
-    bool key_pressed;
     int key_code;
     rectangle.setFillColor(Color(100,80,80));
     rectangle.setPosition(0.0f, 550.0f);
@@ -113,12 +112,16 @@ int main()
             if (event.type == Event::Closed) {
                 window.close();
             }
-            key_pressed = event.type == Event::KeyPressed;
-            if (key_pressed) {
-                key_code = event.key.code;
-                if (key_code == Keyboard::Q || key_code == Keyboard::Escape) {
+            switch(event.type) {
+                case Event::Closed:
                     window.close();
-                }
+                    break;
+                case Event::KeyPressed:
+                    key_code = event.key.code;
+                    if (key_code == Keyboard::Q || key_code == Keyboard::Escape) {
+                        window.close();
+                        }
+                    break;
             }
         }
         player.controls();
