@@ -4,6 +4,11 @@
 using namespace sf;
 using namespace std;
 
+class Geometry {
+    float x_pos;
+    float y_pos;
+};
+
 class Player {
 public:
     float maximum_velocity;
@@ -33,20 +38,20 @@ public:
         bool left_keys = Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left);
         bool right_keys = Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right);
         if (up_keys) {
-            change_velocity(velocity.y, -acceleration, -maximum_velocity);
+            update_velocity(velocity.y, -acceleration, -maximum_velocity);
         }
         if (down_keys) {
-            change_velocity(velocity.y, acceleration, maximum_velocity);
+            update_velocity(velocity.y, acceleration, maximum_velocity);
         }
         if (left_keys) {
-            change_velocity(velocity.x, -acceleration, -maximum_velocity);
+            update_velocity(velocity.x, -acceleration, -maximum_velocity);
         }
         if (right_keys) {
-            change_velocity(velocity.x, acceleration, maximum_velocity);
+            update_velocity(velocity.x, acceleration, maximum_velocity);
         }
     }
 
-    void change_velocity(float& velocity, float acceleration=1.5, float limit=20)
+    void update_velocity(float& velocity, float acceleration=1.5, float limit=20)
     {
         velocity += acceleration;
         if (limit > 0 && velocity > limit) {
