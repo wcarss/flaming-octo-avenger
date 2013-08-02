@@ -4,6 +4,24 @@
 using namespace sf;
 using namespace std;
 
+class Player {
+public:
+    Vector2f velocity;
+    CircleShape circle;
+
+    Player(float size){
+        circle = CircleShape(size);
+    }
+
+    void setPosition(float x, float y) {
+        circle.setPosition(x, y);
+    }
+
+    void move(float x, float y) {
+        circle.move(x, y);
+    }
+};
+
 void update_position(CircleShape& shape, Vector2f velocity);
 void velocity_falloff(Vector2f& velocity);
 
