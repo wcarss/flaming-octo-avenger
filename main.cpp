@@ -55,14 +55,14 @@ void velocity_falloff(Vector2f& velocity) {
 int main()
 {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
-    CircleShape shape(50.f);
+    CircleShape circle(50.f);
     bool key_pressed;
     int key_code;
     float acceleration = 0.4f;
     float maximum_velocity = 15.f;
     Vector2f velocity(0,0);
-    shape.setFillColor(Color::Green);
-    shape.setPosition(200.f, 200.f);
+    circle.setFillColor(Color::Green);
+    circle.setPosition(200.f, 200.f);
 
     while (window.isOpen())
     {
@@ -94,10 +94,10 @@ int main()
         }
 
         velocity_falloff(velocity);
-        update_position(shape, velocity);
+        update_position(circle, velocity);
 
         window.clear(Color(30,30,30));
-        window.draw(shape);
+        window.draw(circle);
         window.display();
     }
 
