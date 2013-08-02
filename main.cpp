@@ -73,17 +73,16 @@ void velocity_falloff(Vector2f& velocity) {
 int main()
 {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
-    CircleShape circle(50.f);
+    Player player(50.f);
     RectangleShape rectangle(Vector2f(800.f, 50.f));
     bool key_pressed;
     int key_code;
     float acceleration = 0.4f;
     float maximum_velocity = 15.f;
-    Vector2f velocity(0,0);
     rectangle.setFillColor(Color(100,80,80));
     rectangle.setPosition(0.0f, 550.0f);
-    circle.setFillColor(Color::Green);
-    circle.setPosition(200.f, 200.f);
+    player.circle.setFillColor(Color::Green);
+    player.setPosition(200.f, 200.f);
 
     while (window.isOpen())
     {
@@ -102,24 +101,24 @@ int main()
             }
         }
         if (Keyboard::isKeyPressed(Keyboard::W)) {
-            change_velocity(velocity.y, -acceleration, -maximum_velocity);
+            change_velocity(player.velocity.y, -acceleration, -maximum_velocity);
         }
         if (Keyboard::isKeyPressed(Keyboard::S)) {
-            change_velocity(velocity.y, acceleration, maximum_velocity);
+            change_velocity(player.velocity.y, acceleration, maximum_velocity);
         }
         if (Keyboard::isKeyPressed(Keyboard::A)) {
-            change_velocity(velocity.x, -acceleration, -maximum_velocity);
+            change_velocity(player.velocity.x, -acceleration, -maximum_velocity);
         }
         if (Keyboard::isKeyPressed(Keyboard::D)) {
-            change_velocity(velocity.x, acceleration, maximum_velocity);
+            change_velocity(player.velocity.x, acceleration, maximum_velocity);
         }
 
-        velocity_falloff(velocity);
-        update_position(circle, velocity);
+        velocity_falloff(player.velocity);
+        update_position(player.circle, player.velocity);
 
         window.clear(Color(30,30,30));
         window.draw(rectangle);
-        window.draw(circle);
+        window.draw(player.circle);
         window.display();
     }
 
