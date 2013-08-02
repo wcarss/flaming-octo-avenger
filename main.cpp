@@ -56,11 +56,14 @@ int main()
 {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     CircleShape circle(50.f);
+    RectangleShape rectangle(Vector2f(800.f, 50.f));
     bool key_pressed;
     int key_code;
     float acceleration = 0.4f;
     float maximum_velocity = 15.f;
     Vector2f velocity(0,0);
+    rectangle.setFillColor(Color(100,80,80));
+    rectangle.setPosition(0.0f, 550.0f);
     circle.setFillColor(Color::Green);
     circle.setPosition(200.f, 200.f);
 
@@ -97,6 +100,7 @@ int main()
         update_position(circle, velocity);
 
         window.clear(Color(30,30,30));
+        window.draw(rectangle);
         window.draw(circle);
         window.display();
     }
