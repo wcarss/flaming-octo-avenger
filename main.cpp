@@ -13,6 +13,8 @@ public:
 
     Player(float size){
         circle = CircleShape(size);
+        circle.setFillColor(Color::Green);
+        setPosition(200.f, 200.f);
         maximum_velocity = 15.f;
         acceleration = 0.4f;
     }
@@ -98,8 +100,6 @@ int main()
     int key_code;
     rectangle.setFillColor(Color(100,80,80));
     rectangle.setPosition(0.0f, 550.0f);
-    player.circle.setFillColor(Color::Green);
-    player.setPosition(200.f, 200.f);
 
     while (window.isOpen())
     {
