@@ -28,16 +28,20 @@ public:
     }
 
     void controls() {
-        if (Keyboard::isKeyPressed(Keyboard::W)) {
+        bool up_keys = Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Up);
+        bool down_keys = Keyboard::isKeyPressed(Keyboard::S) || Keyboard::isKeyPressed(Keyboard::Down);
+        bool left_keys = Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left);
+        bool right_keys = Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right);
+        if (up_keys) {
             change_velocity(velocity.y, -acceleration, -maximum_velocity);
         }
-        if (Keyboard::isKeyPressed(Keyboard::S)) {
+        if (down_keys) {
             change_velocity(velocity.y, acceleration, maximum_velocity);
         }
-        if (Keyboard::isKeyPressed(Keyboard::A)) {
+        if (left_keys) {
             change_velocity(velocity.x, -acceleration, -maximum_velocity);
         }
-        if (Keyboard::isKeyPressed(Keyboard::D)) {
+        if (right_keys) {
             change_velocity(velocity.x, acceleration, maximum_velocity);
         }
     }
