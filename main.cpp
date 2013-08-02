@@ -6,11 +6,15 @@ using namespace std;
 
 class Player {
 public:
+    float maximum_velocity;
+    float acceleration;
     Vector2f velocity;
     CircleShape circle;
 
     Player(float size){
         circle = CircleShape(size);
+        maximum_velocity = 15.f;
+        acceleration = 0.4f;
     }
 
     void setPosition(float x, float y) {
@@ -20,21 +24,36 @@ public:
     void move(float x, float y) {
         circle.move(x, y);
     }
+
+    void controls() {
+        if (Keyboard::isKeyPressed(Keyboard::W)) {
+            change_velocity(velocity.y, -acceleration, -maximum_velocity);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::S)) {
+            change_velocity(velocity.y, acceleration, maximum_velocity);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::A)) {
+            change_velocity(velocity.x, -acceleration, -maximum_velocity);
+        }
+        if (Keyboard::isKeyPressed(Keyboard::D)) {
+            change_velocity(velocity.x, acceleration, maximum_velocity);
+        }
+    }
+
+    void change_velocity(float& velocity, float acceleration=1.5, float limit=20)
+    {
+        velocity += acceleration;
+        if (limit > 0 && velocity > limit) {
+            velocity = limit;
+        }
+        if (limit <= 0 && velocity < limit) {
+            velocity = limit;
+        }
+    }
 };
 
 void update_position(CircleShape& shape, Vector2f velocity);
 void velocity_falloff(Vector2f& velocity);
-
-void change_velocity(float& velocity, float acceleration=1.5, float limit=20)
-{
-    velocity += acceleration;
-    if (limit > 0 && velocity > limit) {
-        velocity = limit;
-    }
-    if (limit <= 0 && velocity < limit) {
-        velocity = limit;
-    }
-}
 
 void update_position(CircleShape& shape, Vector2f velocity) {
     float min_x_position = 0;
@@ -77,8 +96,6 @@ int main()
     RectangleShape rectangle(Vector2f(800.f, 50.f));
     bool key_pressed;
     int key_code;
-    float acceleration = 0.4f;
-    float maximum_velocity = 15.f;
     rectangle.setFillColor(Color(100,80,80));
     rectangle.setPosition(0.0f, 550.0f);
     player.circle.setFillColor(Color::Green);
@@ -100,18 +117,7 @@ int main()
                 }
             }
         }
-        if (Keyboard::isKeyPressed(Keyboard::W)) {
-            change_velocity(player.velocity.y, -acceleration, -maximum_velocity);
-        }
-        if (Keyboard::isKeyPressed(Keyboard::S)) {
-            change_velocity(player.velocity.y, acceleration, maximum_velocity);
-        }
-        if (Keyboard::isKeyPressed(Keyboard::A)) {
-            change_velocity(player.velocity.x, -acceleration, -maximum_velocity);
-        }
-        if (Keyboard::isKeyPressed(Keyboard::D)) {
-            change_velocity(player.velocity.x, acceleration, maximum_velocity);
-        }
+        player.controls();
 
         velocity_falloff(player.velocity);
         update_position(player.circle, player.velocity);
