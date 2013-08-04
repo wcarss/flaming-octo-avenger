@@ -73,44 +73,43 @@ public:
             velocity.y = min_velocity.y;
         }
     }
+
+    void update_position() {
+        float min_x_position = 0;
+        float max_x_position = 700;
+        float min_y_position = 0;
+        float max_y_position = 500;
+
+        velocity_falloff(velocity);
+        Vector2f new_position(sprite.getPosition() + velocity);
+
+        if (new_position.x > max_x_position) {
+            new_position.x = max_x_position;
+        }
+        if (new_position.x < min_x_position) {
+            new_position.x = min_x_position;
+        }
+        if (new_position.y > max_y_position) {
+            new_position.y = max_y_position;
+        }
+        if (new_position.y < min_y_position) {
+            new_position.y = min_y_position;
+        }
+
+        sprite.setPosition(new_position);
+    }
+
+    void velocity_falloff(Vector2f& velocity) {
+        Vector2f falloff(1.1f, 1.1f);
+        float velocity_epsilon = 0.01f;
+        velocity.x /= falloff.x;
+        velocity.y /= falloff.y;
+        if (velocity.x > -velocity_epsilon && velocity.x < velocity_epsilon)
+            velocity.x = 0;
+        if (velocity.y > -velocity_epsilon && velocity.y < velocity_epsilon)
+            velocity.y = 0;
+    }
 };
-
-void update_position(Sprite &sprite, Vector2f velocity);
-void velocity_falloff(Vector2f& velocity);
-
-void update_position(Sprite &sprite, Vector2f velocity) {
-    float min_x_position = 0;
-    float max_x_position = 700;
-    float min_y_position = 0;
-    float max_y_position = 500;
-    Vector2f new_position(sprite.getPosition() + velocity);
-
-    if (new_position.x > max_x_position) {
-        new_position.x = max_x_position;
-    }
-    if (new_position.x < min_x_position) {
-        new_position.x = min_x_position;
-    }
-    if (new_position.y > max_y_position) {
-        new_position.y = max_y_position;
-    }
-    if (new_position.y < min_y_position) {
-        new_position.y = min_y_position;
-    }
-
-    sprite.setPosition(new_position);
-}
-
-void velocity_falloff(Vector2f& velocity) {
-    Vector2f falloff(1.1f, 1.1f);
-    float velocity_epsilon = 0.01f;
-    velocity.x /= falloff.x;
-    velocity.y /= falloff.y;
-    if (velocity.x > -velocity_epsilon && velocity.x < velocity_epsilon)
-        velocity.x = 0;
-    if (velocity.y > -velocity_epsilon && velocity.y < velocity_epsilon)
-        velocity.y = 0;
-}
 
 int main()
 {
@@ -142,9 +141,7 @@ int main()
             }
         }
         player.controls();
-
-        velocity_falloff(player.velocity);
-        update_position(player.sprite, player.velocity);
+        player.update_position();
 
         window.clear(Color(30,30,30));
         window.draw(rectangle);
