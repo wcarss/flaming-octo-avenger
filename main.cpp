@@ -4,11 +4,6 @@
 using namespace sf;
 using namespace std;
 
-class Geometry {
-    float x_pos;
-    float y_pos;
-};
-
 class Player {
 public:
     Vector2f max_velocity;
