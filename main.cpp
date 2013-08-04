@@ -15,23 +15,28 @@ public:
     Vector2f min_velocity;
     float acceleration;
     Vector2f velocity;
-    CircleShape circle;
+    Texture texture;
+    Sprite sprite;
 
     Player(float size){
-        circle = CircleShape(size);
-        circle.setFillColor(Color::Green);
         setPosition(200.f, 200.f);
         max_velocity = Vector2f(15.f, 15.f);
         min_velocity = Vector2f(-15.f, -15.f);
         acceleration = 1.1f;
+        if (!texture.loadFromFile("player.png")) {
+            cerr<<"Failed to load texture."<<endl;
+        }
+        texture.setSmooth(true);
+        sprite.setTexture(texture);
+        sprite.setColor(Color::Green);
     }
 
     void setPosition(float x, float y) {
-        circle.setPosition(x, y);
+        sprite.setPosition(x, y);
     }
 
     void move(float x, float y) {
-        circle.move(x, y);
+        sprite.move(x, y);
     }
 
     void controls() {
@@ -71,15 +76,15 @@ public:
     }
 };
 
-void update_position(CircleShape& shape, Vector2f velocity);
+void update_position(Sprite &sprite, Vector2f velocity);
 void velocity_falloff(Vector2f& velocity);
 
-void update_position(CircleShape& shape, Vector2f velocity) {
+void update_position(Sprite &sprite, Vector2f velocity) {
     float min_x_position = 0;
     float max_x_position = 700;
     float min_y_position = 0;
     float max_y_position = 500;
-    Vector2f new_position(shape.getPosition() + velocity);
+    Vector2f new_position(sprite.getPosition() + velocity);
 
     if (new_position.x > max_x_position) {
         new_position.x = max_x_position;
@@ -94,7 +99,7 @@ void update_position(CircleShape& shape, Vector2f velocity) {
         new_position.y = min_y_position;
     }
 
-    shape.setPosition(new_position);
+    sprite.setPosition(new_position);
 }
 
 void velocity_falloff(Vector2f& velocity) {
@@ -140,11 +145,11 @@ int main()
         player.controls();
 
         velocity_falloff(player.velocity);
-        update_position(player.circle, player.velocity);
+        update_position(player.sprite, player.velocity);
 
         window.clear(Color(30,30,30));
         window.draw(rectangle);
-        window.draw(player.circle);
+        window.draw(player.sprite);
         window.display();
     }
 
