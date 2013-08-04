@@ -11,7 +11,8 @@ class Geometry {
 
 class Player {
 public:
-    float maximum_velocity;
+    Vector2f max_velocity;
+    Vector2f min_velocity;
     float acceleration;
     Vector2f velocity;
     CircleShape circle;
@@ -20,8 +21,9 @@ public:
         circle = CircleShape(size);
         circle.setFillColor(Color::Green);
         setPosition(200.f, 200.f);
-        maximum_velocity = 15.f;
-        acceleration = 0.4f;
+        max_velocity = Vector2f(15.f, 15.f);
+        min_velocity = Vector2f(-15.f, -15.f);
+        acceleration = 1.1f;
     }
 
     void setPosition(float x, float y) {
@@ -38,27 +40,33 @@ public:
         bool left_keys = Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left);
         bool right_keys = Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right);
         if (up_keys) {
-            update_velocity(velocity.y, -acceleration, -maximum_velocity);
+            update_velocity(Vector2f(0, -acceleration));
         }
         if (down_keys) {
-            update_velocity(velocity.y, acceleration, maximum_velocity);
+            update_velocity(Vector2f(0, acceleration));
         }
         if (left_keys) {
-            update_velocity(velocity.x, -acceleration, -maximum_velocity);
+            update_velocity(Vector2f(-acceleration, 0));
         }
         if (right_keys) {
-            update_velocity(velocity.x, acceleration, maximum_velocity);
+            update_velocity(Vector2f(acceleration, 0));
         }
     }
 
-    void update_velocity(float& velocity, float acceleration=1.5, float limit=20)
+    void update_velocity(Vector2f direction)
     {
-        velocity += acceleration;
-        if (limit > 0 && velocity > limit) {
-            velocity = limit;
+        velocity += direction;
+        if (velocity.x > max_velocity.x) {
+            velocity.x = max_velocity.x;
         }
-        if (limit <= 0 && velocity < limit) {
-            velocity = limit;
+        if (velocity.x < min_velocity.x) {
+            velocity.x = min_velocity.x;
+        }
+        if (velocity.y > max_velocity.y) {
+            velocity.y = max_velocity.y;
+        }
+        if (velocity.y < min_velocity.y) {
+            velocity.y = min_velocity.y;
         }
     }
 };
