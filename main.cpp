@@ -34,6 +34,10 @@ public:
         sprite.move(x, y);
     }
 
+    void draw(RenderWindow& window) {
+        window.draw(sprite);
+    }
+
     void controls() {
         bool up_keys = Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Up);
         bool down_keys = Keyboard::isKeyPressed(Keyboard::S) || Keyboard::isKeyPressed(Keyboard::Down);
@@ -144,7 +148,7 @@ int main()
 
         window.clear(Color(30,30,30));
         window.draw(rectangle);
-        window.draw(player.sprite);
+        player.draw(window);
         window.display();
     }
 
