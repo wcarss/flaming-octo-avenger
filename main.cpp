@@ -209,11 +209,9 @@ int main()
         player.update_position(objects, object_count);
 
         window.clear(Color(4,4,4));
-        window.draw(ground.sprite);
-        window.draw(wall.sprite);
-        window.draw(bridge.sprite);
-        window.draw(rwall.sprite);
-        window.draw(moon.sprite);
+        for (int i = 0; i < object_count; i++) {
+            window.draw(objects[i]->sprite);
+        }
         player.draw(window);
         window.display();
     }
