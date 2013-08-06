@@ -41,7 +41,7 @@ public:
     FloatRect left;
     FloatRect right;
 
-    Vector2f setSize(Vector2f size) {
+    void setSize(Vector2f size) {
         FloatRect current_bounds = this->sprite.getGlobalBounds();
 //        cout<<"current bounds: pos: ("<<current_bounds.left<<", "<<current_bounds.top<<"), size: ("<<current_bounds.width<<","<<current_bounds.height<<")."<<endl;
         float scale_x = size.x / current_bounds.width;
@@ -54,6 +54,7 @@ public:
     Object(String str, Vector2f pos, Vector2f size, bool passable) {
         this->texture.loadFromFile(str);
         this->texture.setRepeated(true);
+        this->texture.setSmooth(true);
         this->sprite.setTexture(this->texture);
         this->sprite.setPosition(pos);
         this->passable = passable;
