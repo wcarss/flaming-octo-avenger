@@ -168,10 +168,18 @@ int main()
 {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     Player player(100.f, 100.f);
-    Object wall("brown.png", Vector2f(0.0f, 550.0f), Vector2f(800.f, 50.f), false);
-    int object_count = 1;
+    Object ground("brown.png", Vector2f(0.0f, 550.0f), Vector2f(800.f, 50.f), false);
+    Object wall("brown.png", Vector2f(100.0f, 450.0f), Vector2f(100.f, 100.f), false);
+    Object bridge("brown.png", Vector2f(100.0f, 400.0f), Vector2f(400.f, 50.f), false);
+    Object rwall("brown.png", Vector2f(400.0f, 450.0f), Vector2f(100.f, 100.f), false);
+    Object moon("moon.png", Vector2f(500.0f, 100.0f), Vector2f(60.f, 49.f), true);
+    int object_count = 5;
     Object** objects = new Object*[object_count];
-    objects[0] = &wall;
+    objects[0] = &ground;
+    objects[1] = &wall;
+    objects[2] = &bridge;
+    objects[3] = &rwall;
+    objects[4] = &moon;
     //RectangleShape rectangle(Vector2f(800.f, 50.f));
     int key_code;
     //rectangle.setFillColor(Color(100,80,80));
@@ -200,8 +208,12 @@ int main()
         player.controls();
         player.update_position(objects, object_count);
 
-        window.clear(Color(30,30,30));
+        window.clear(Color(4,4,4));
+        window.draw(ground.sprite);
         window.draw(wall.sprite);
+        window.draw(bridge.sprite);
+        window.draw(rwall.sprite);
+        window.draw(moon.sprite);
         player.draw(window);
         window.display();
     }
