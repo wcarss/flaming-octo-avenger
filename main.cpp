@@ -164,6 +164,8 @@ int main()
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     Player player(100.f, 100.f);
     Object wall("brown.png", Vector2f(0.0f, 550.0f), Vector2f(800.f, 50.f), false);
+    Object** objects = new Object*[1];
+    objects[0] = &wall;
     //RectangleShape rectangle(Vector2f(800.f, 50.f));
     int key_code;
     //rectangle.setFillColor(Color(100,80,80));
@@ -190,7 +192,7 @@ int main()
             }
         }
         player.controls();
-        player.update_position(wall);
+        player.update_position(*objects[0]);
 
         window.clear(Color(30,30,30));
         window.draw(wall.sprite);
@@ -198,5 +200,6 @@ int main()
         window.display();
     }
 
+    delete objects;
     return 0;
 }
