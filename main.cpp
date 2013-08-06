@@ -112,11 +112,13 @@ public:
         }
     }
 
-    void update_position(Object object) {
+    void update_position(Object** objects, int object_count) {
         float min_x_position = 0;
         float max_x_position = 700;
         float min_y_position = 0;
         float max_y_position = 600;
+        int i = 0;
+        Object* object;
 
         Vector2f new_position(sprite.getPosition() + velocity);
 
@@ -136,11 +138,14 @@ public:
 //cout<<"object.passable: "<<object.passable<<"."<<endl;
 //cout<<"object.rect: pos: ("<<object.rect.left<<", "<<object.rect.top<<"), size: ("<<object.rect.width<<","<<object.rect.height<<")."<<endl;
 //cout<<"new_position: ("<<new_position.x<<", "<<new_position.y<<")."<<endl;
-        if (!object.passable && object.rect.intersects(FloatRect(new_position, size))) {
+        for (i = 0; i < object_count; i++) {
+            object = objects[i];
+            if (!object->passable && object->rect.intersects(FloatRect(new_position, size))) {
 //cout<<"CONTAINS!!!"<<endl;
-            new_position = sprite.getPosition();
-            velocity.x = 0;
-            velocity.y = 0;
+                new_position = sprite.getPosition();
+                velocity.x = 0;
+                velocity.y = 0;
+            }
         }
 
         sprite.setPosition(new_position);
@@ -164,7 +169,8 @@ int main()
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     Player player(100.f, 100.f);
     Object wall("brown.png", Vector2f(0.0f, 550.0f), Vector2f(800.f, 50.f), false);
-    Object** objects = new Object*[1];
+    int object_count = 1;
+    Object** objects = new Object*[object_count];
     objects[0] = &wall;
     //RectangleShape rectangle(Vector2f(800.f, 50.f));
     int key_code;
@@ -192,7 +198,7 @@ int main()
             }
         }
         player.controls();
-        player.update_position(*objects[0]);
+        player.update_position(objects, object_count);
 
         window.clear(Color(30,30,30));
         window.draw(wall.sprite);
