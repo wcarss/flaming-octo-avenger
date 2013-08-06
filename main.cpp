@@ -177,13 +177,15 @@ int main()
     Object bridge("brown.png", Vector2f(100.0f, 400.0f), Vector2f(400.f, 50.f), false);
     Object rwall("brown.png", Vector2f(400.0f, 450.0f), Vector2f(100.f, 100.f), false);
     Object moon("moon.png", Vector2f(500.0f, 100.0f), Vector2f(60.f, 49.f), true);
-    int object_count = 5;
+    Object bump("brown.png", Vector2f(610.0f, 510.0f), Vector2f(60.f, 40.f), false);
+    int object_count = 6;
     Object** objects = new Object*[object_count];
     objects[0] = &ground;
     objects[1] = &wall;
     objects[2] = &bridge;
     objects[3] = &rwall;
     objects[4] = &moon;
+    objects[5] = &bump;
     //RectangleShape rectangle(Vector2f(800.f, 50.f));
     int key_code;
     //rectangle.setFillColor(Color(100,80,80));
