@@ -118,7 +118,6 @@ public:
         float min_y_position = 0;
         float max_y_position = 600;
 
-        velocity_falloff(velocity);
         Vector2f new_position(sprite.getPosition() + velocity);
 
         if (new_position.x > max_x_position) {
@@ -140,9 +139,12 @@ public:
         if (!object.passable && object.rect.intersects(FloatRect(new_position, size))) {
 //cout<<"CONTAINS!!!"<<endl;
             new_position = sprite.getPosition();
+            velocity.x = 0;
+            velocity.y = 0;
         }
 
         sprite.setPosition(new_position);
+        velocity_falloff(velocity);
     }
 
     void velocity_falloff(Vector2f& velocity) {
