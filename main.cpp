@@ -31,6 +31,10 @@ public:
         this->passable = passable;
         this->rect = FloatRect(pos, size);
     }
+
+    void draw(RenderWindow& window) {
+        window.draw(sprite);
+    }
 };
 
 class Player {
@@ -210,7 +214,7 @@ int main()
 
         window.clear(Color(4,4,4));
         for (int i = 0; i < object_count; i++) {
-            window.draw(objects[i]->sprite);
+            objects[i]->draw(window);
         }
         player.draw(window);
         window.display();
