@@ -4,12 +4,42 @@
 using namespace sf;
 using namespace std;
 
+class Collision {
+public:
+    bool middle;
+    bool top;
+    bool bottom;
+    bool left;
+    bool right;
+
+    Collision (bool middle, bool top, bool bottom, bool left, bool right) {
+        this->middle = middle;
+        this->top = top;
+        this->bottom = bottom;
+        this->left = left;
+        this->right = right;
+        // topleft, topright, bottomleft, bottomright would all be easy to do
+    }
+
+    bool any() {
+        return this->middle || this->top || this->bottom || this->left || this->right;
+    }
+
+    bool none() {
+        return !(this->any());
+    }
+};
+
 class Object {
 public:
     bool passable;
     Texture texture;
     Sprite sprite;
-    FloatRect rect;
+    FloatRect middle;
+    FloatRect top;
+    FloatRect bottom;
+    FloatRect left;
+    FloatRect right;
 
     Vector2f setSize(Vector2f size) {
         FloatRect current_bounds = this->sprite.getGlobalBounds();
@@ -26,10 +56,37 @@ public:
         this->texture.setRepeated(true);
         this->sprite.setTexture(this->texture);
         this->sprite.setPosition(pos);
-        setSize(size);
-        //this->sprite.setScale(this->sprite.getGlobalBounds();
         this->passable = passable;
-        this->rect = FloatRect(pos, size);
+        setSize(size);
+        this->middle = FloatRect(pos, size);
+        this->top = FloatRect(pos, Vector2f(size.x, 1));
+        this->bottom = FloatRect(Vector2f(pos.x, pos.y + (size.y - 1)), Vector2f(size.x, 1));
+        this->left = FloatRect(pos, Vector2f(1, size.y));
+        this->right = FloatRect(Vector2f(pos.x + size.x, pos.y), Vector2f(1, size.y));
+    }
+
+    Collision collides(FloatRect rect) {
+        bool middle = false;
+        bool top = false;
+        bool bottom = false;
+        bool left = false;
+        bool right = false;
+        if (rect.intersects(this->middle)) {
+            middle = true;
+        }
+        if (rect.intersects(this->top)) {
+            top = true;
+        }
+        if (rect.intersects(this->bottom)) {
+            bottom = true;
+        }
+        if (rect.intersects(this->left)) {
+            left = true;
+        }
+        if (rect.intersects(this->right)) {
+            right = true;
+        }
+        return Collision(middle, top, bottom, left, right);
     }
 
     void draw(RenderWindow& window) {
@@ -144,7 +201,7 @@ public:
 //cout<<"new_position: ("<<new_position.x<<", "<<new_position.y<<")."<<endl;
         for (i = 0; i < object_count; i++) {
             object = objects[i];
-            if (!object->passable && object->rect.intersects(FloatRect(new_position, size))) {
+            if (!object->passable && object->collides(FloatRect(new_position, size)).any()) {
 //cout<<"CONTAINS!!!"<<endl;
                 new_position = sprite.getPosition();
                 velocity.x = 0;
