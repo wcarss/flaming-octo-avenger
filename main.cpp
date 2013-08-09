@@ -229,6 +229,7 @@ public:
 int main()
 {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
+    View view = window.getDefaultView();
     Player player(100.f, 100.f);
     Object ground("brown.png", Vector2f(0.0f, 550.0f), Vector2f(800.f, 50.f), false);
     Object wall("brown.png", Vector2f(100.0f, 450.0f), Vector2f(100.f, 100.f), false);
@@ -248,6 +249,8 @@ int main()
     int key_code;
     //rectangle.setFillColor(Color(100,80,80));
     //rectangle.setPosition(0.0f, 550.0f);
+
+
 
     while (window.isOpen())
     {
@@ -269,6 +272,8 @@ int main()
                     break;
             }
         }
+        view.rotate(0.1);
+        window.setView(view);
         player.controls();
         player.update_position(objects, object_count);
 
