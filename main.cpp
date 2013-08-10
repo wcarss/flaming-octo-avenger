@@ -257,9 +257,6 @@ int main()
         Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == Event::Closed) {
-                window.close();
-            }
             switch(event.type) {
                 case Event::Closed:
                     window.close();
