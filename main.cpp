@@ -13,7 +13,6 @@ vector<string> &split(const string &s, char delim, vector<string> &elems) {
     stringstream ss(s);
     string item;
     while (getline(ss, item, delim)) {
-        cout<<"Pushing back item: '"<<item<<"'."<<endl;
         elems.push_back(item);
     }
     return elems;
@@ -65,12 +64,10 @@ public:
 
     void setSize(Vector2f size) {
         FloatRect current_bounds = this->sprite.getGlobalBounds();
-//        cout<<"current bounds: pos: ("<<current_bounds.left<<", "<<current_bounds.top<<"), size: ("<<current_bounds.width<<","<<current_bounds.height<<")."<<endl;
         float scale_x = size.x / current_bounds.width;
         float scale_y = size.y / current_bounds.height;
         this->sprite.scale(scale_x, scale_y);
         current_bounds = this->sprite.getGlobalBounds();
-//        cout<<"current bounds: pos: ("<<current_bounds.left<<", "<<current_bounds.top<<"), size: ("<<current_bounds.width<<","<<current_bounds.height<<")."<<endl;
     }
 
     Object(String name, String str, Vector2f pos, Vector2f size, bool passable) {
@@ -139,12 +136,9 @@ public:
         this->sprite.setTexture(texture);
         this->sprite.setColor(Color::Green);
         bounds_rect = sprite.getGlobalBounds();
-//        cout<<"current bounds: pos: ("<<bounds_rect.left<<", "<<bounds_rect.top<<"), size: ("<<bounds_rect.width<<","<<bounds_rect.height<<")."<<endl;
         this->size = Vector2f(size_x, size_y);
         this->sprite.scale(this->size.x / bounds_rect.height, this->size.y / bounds_rect.width);
-        //this->sprite.setOrigin(this->size.x / 2, this->size.y / 2);
         bounds_rect = sprite.getGlobalBounds();
-//        cout<<"current bounds: pos: ("<<bounds_rect.left<<", "<<bounds_rect.top<<"), size: ("<<bounds_rect.width<<","<<bounds_rect.height<<")."<<endl;
         setPosition(200.f, 200.f);
     }
 
@@ -219,13 +213,9 @@ public:
             new_position.y = min_y_position;
         }
 
-//cout<<"object.passable: "<<object.passable<<"."<<endl;
-//cout<<"object.rect: pos: ("<<object.rect.left<<", "<<object.rect.top<<"), size: ("<<object.rect.width<<","<<object.rect.height<<")."<<endl;
-//cout<<"new_position: ("<<new_position.x<<", "<<new_position.y<<")."<<endl;
         for (vector<Object *>::iterator it = objects.begin(); it != objects.end(); ++it) {
             object = *it;
             if (!object->passable && object->collides(FloatRect(new_position, size)).any()) {
-//cout<<"CONTAINS!!!"<<endl;
                 new_position = sprite.getPosition();
                 velocity.x = 0;
                 velocity.y = 0;
@@ -253,23 +243,18 @@ bool to_bool(String s) {
 }
 
 Object* object_from_str(string str) {
-    cout<<str<<endl;
     vector<string> substrings;
     substrings = split(str, ',', substrings);
-
-    cout<<"substrings[0] is: "<<substrings[0]<<endl;
 
     String name = String(substrings[0]);
     String file = String(substrings[1]);
 
     for (vector<string>::iterator it = substrings.begin(); it != substrings.end(); ++it) {
         /* This, shockingly, strips whitespace off of the ends of strings. */
-        cout<<"the string is at first: "<<*it<<"."<<endl;
         std::stringstream trimmer;
         trimmer << *it;
         (*it).clear();
         trimmer >> *it;
-        cout<<"the string is now: "<<*it<<"."<<endl;
     }
 
     Object *object = new Object(String(substrings[0]), String(substrings[1]), Vector2f(atof(substrings[2].c_str()), atof(substrings[3].c_str())), Vector2f(atof(substrings[4].c_str()), atof(substrings[5].c_str())), to_bool(substrings[6]));
@@ -281,11 +266,9 @@ vector<Object *> read_objects(string s) {
     string str;
     vector<Object *> objects;
 
-    cout<<"read object:"<<endl;
     if (file.is_open()) {
         while (file.good()) {
             getline(file, str);
-            cout<<"line is '"<<str<<"'."<<endl;
             if (str != "") {
                 // object_from_str(str);
                 objects.push_back(object_from_str(str));
@@ -293,7 +276,6 @@ vector<Object *> read_objects(string s) {
         }
         file.close();
     }
-    cout<<endl<<"done reading object."<<endl;
     return objects;
 }
 
