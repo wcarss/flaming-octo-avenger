@@ -270,7 +270,6 @@ vector<Object *> read_objects(string s) {
         while (file.good()) {
             getline(file, str);
             if (str != "") {
-                // object_from_str(str);
                 objects.push_back(object_from_str(str));
             }
         }
@@ -284,24 +283,8 @@ int main()
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     View view = window.getDefaultView();
     Player player(100.f, 100.f);
-    //Object ground("ground", "brown.png", Vector2f(0.0f, 550.0f), Vector2f(800.f, 50.f), false);
-    //Object wall("wall", "brown.png", Vector2f(100.0f, 450.0f), Vector2f(100.f, 100.f), false);
-    //Object bridge("bridge", "brown.png", Vector2f(100.0f, 400.0f), Vector2f(400.f, 50.f), false);
-    //Object rwall("rwall", "brown.png", Vector2f(400.0f, 450.0f), Vector2f(100.f, 100.f), false);
-    //Object moon("moon", "moon.png", Vector2f(500.0f, 100.0f), Vector2f(60.f, 49.f), true);
-    //Object bump("bump", "brown.png", Vector2f(610.0f, 510.0f), Vector2f(60.f, 40.f), false);
     int object_count = 6;
-    //Object** objects = new Object*[object_count];
-    //objects[0] = &ground;
-    //objects[1] = &wall;
-    //objects[2] = &bridge;
-    //objects[3] = &rwall;
-    //objects[4] = &moon;
-    //objects[5] = &bump;
-    //RectangleShape rectangle(Vector2f(800.f, 50.f));
     int key_code;
-    //rectangle.setFillColor(Color(100,80,80));
-    //rectangle.setPosition(0.0f, 550.0f);
     vector<Object *> objects = read_objects("objects.txt");
 
     while (window.isOpen())
