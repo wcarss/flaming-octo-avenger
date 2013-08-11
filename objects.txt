@@ -1,0 +1,6 @@
+ground, brown.png, 0.0, 550.0, 800, 50, false
+wall, brown.png, 100.0, 450.0, 100, 100, false
+bridge, brown.png, 100.0, 400.0, 400, 50, false
+rwall, brown.png, 400.0, 450.0, 100, 100, false
+moon, moon.png, 500.0, 100.0, 60, 49, true
+bump, brown.png, 610.0, 510.0, 60, 40, false

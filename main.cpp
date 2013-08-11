@@ -1,8 +1,29 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <cstring>
 
 using namespace sf;
 using namespace std;
+
+vector<string> &split(const string &s, char delim, vector<string> &elems) {
+    stringstream ss(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        cout<<"Pushing back item: '"<<item<<"'."<<endl;
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+vector<string> split(const string &s, char delim) {
+    vector<string> elems;
+    split(s, delim, elems);
+    return elems;
+}
 
 class Collision {
 public:
@@ -40,6 +61,7 @@ public:
     FloatRect bottom;
     FloatRect left;
     FloatRect right;
+    string name;
 
     void setSize(Vector2f size) {
         FloatRect current_bounds = this->sprite.getGlobalBounds();
@@ -51,7 +73,7 @@ public:
 //        cout<<"current bounds: pos: ("<<current_bounds.left<<", "<<current_bounds.top<<"), size: ("<<current_bounds.width<<","<<current_bounds.height<<")."<<endl;
     }
 
-    Object(String str, Vector2f pos, Vector2f size, bool passable) {
+    Object(String name, String str, Vector2f pos, Vector2f size, bool passable) {
         this->texture.loadFromFile(str);
         this->texture.setRepeated(true);
         this->texture.setSmooth(true);
@@ -174,7 +196,7 @@ public:
         }
     }
 
-    void update_position(Object** objects, int object_count) {
+    void update_position(vector<Object *> objects, int object_count) {
         float min_x_position = 0;
         float max_x_position = 700;
         float min_y_position = 0;
@@ -200,8 +222,8 @@ public:
 //cout<<"object.passable: "<<object.passable<<"."<<endl;
 //cout<<"object.rect: pos: ("<<object.rect.left<<", "<<object.rect.top<<"), size: ("<<object.rect.width<<","<<object.rect.height<<")."<<endl;
 //cout<<"new_position: ("<<new_position.x<<", "<<new_position.y<<")."<<endl;
-        for (i = 0; i < object_count; i++) {
-            object = objects[i];
+        for (vector<Object *>::iterator it = objects.begin(); it != objects.end(); ++it) {
+            object = *it;
             if (!object->passable && object->collides(FloatRect(new_position, size)).any()) {
 //cout<<"CONTAINS!!!"<<endl;
                 new_position = sprite.getPosition();
@@ -226,31 +248,79 @@ public:
     }
 };
 
+bool to_bool(String s) {
+    return s == String("true");
+}
+
+Object* object_from_str(string str) {
+    cout<<str<<endl;
+    vector<string> substrings;
+    substrings = split(str, ',', substrings);
+
+    cout<<"substrings[0] is: "<<substrings[0]<<endl;
+
+    String name = String(substrings[0]);
+    String file = String(substrings[1]);
+
+    for (vector<string>::iterator it = substrings.begin(); it != substrings.end(); ++it) {
+        /* This, shockingly, strips whitespace off of the ends of strings. */
+        cout<<"the string is at first: "<<*it<<"."<<endl;
+        std::stringstream trimmer;
+        trimmer << *it;
+        (*it).clear();
+        trimmer >> *it;
+        cout<<"the string is now: "<<*it<<"."<<endl;
+    }
+
+    Object *object = new Object(String(substrings[0]), String(substrings[1]), Vector2f(atof(substrings[2].c_str()), atof(substrings[3].c_str())), Vector2f(atof(substrings[4].c_str()), atof(substrings[5].c_str())), to_bool(substrings[6]));
+    return object;
+}
+
+vector<Object *> read_objects(string s) {
+    ifstream file ("objects.txt");
+    string str;
+    vector<Object *> objects;
+
+    cout<<"read object:"<<endl;
+    if (file.is_open()) {
+        while (file.good()) {
+            getline(file, str);
+            cout<<"line is '"<<str<<"'."<<endl;
+            if (str != "") {
+                // object_from_str(str);
+                objects.push_back(object_from_str(str));
+            }
+        }
+        file.close();
+    }
+    cout<<endl<<"done reading object."<<endl;
+    return objects;
+}
+
 int main()
 {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     View view = window.getDefaultView();
     Player player(100.f, 100.f);
-    Object ground("brown.png", Vector2f(0.0f, 550.0f), Vector2f(800.f, 50.f), false);
-    Object wall("brown.png", Vector2f(100.0f, 450.0f), Vector2f(100.f, 100.f), false);
-    Object bridge("brown.png", Vector2f(100.0f, 400.0f), Vector2f(400.f, 50.f), false);
-    Object rwall("brown.png", Vector2f(400.0f, 450.0f), Vector2f(100.f, 100.f), false);
-    Object moon("moon.png", Vector2f(500.0f, 100.0f), Vector2f(60.f, 49.f), true);
-    Object bump("brown.png", Vector2f(610.0f, 510.0f), Vector2f(60.f, 40.f), false);
+    //Object ground("ground", "brown.png", Vector2f(0.0f, 550.0f), Vector2f(800.f, 50.f), false);
+    //Object wall("wall", "brown.png", Vector2f(100.0f, 450.0f), Vector2f(100.f, 100.f), false);
+    //Object bridge("bridge", "brown.png", Vector2f(100.0f, 400.0f), Vector2f(400.f, 50.f), false);
+    //Object rwall("rwall", "brown.png", Vector2f(400.0f, 450.0f), Vector2f(100.f, 100.f), false);
+    //Object moon("moon", "moon.png", Vector2f(500.0f, 100.0f), Vector2f(60.f, 49.f), true);
+    //Object bump("bump", "brown.png", Vector2f(610.0f, 510.0f), Vector2f(60.f, 40.f), false);
     int object_count = 6;
-    Object** objects = new Object*[object_count];
-    objects[0] = &ground;
-    objects[1] = &wall;
-    objects[2] = &bridge;
-    objects[3] = &rwall;
-    objects[4] = &moon;
-    objects[5] = &bump;
+    //Object** objects = new Object*[object_count];
+    //objects[0] = &ground;
+    //objects[1] = &wall;
+    //objects[2] = &bridge;
+    //objects[3] = &rwall;
+    //objects[4] = &moon;
+    //objects[5] = &bump;
     //RectangleShape rectangle(Vector2f(800.f, 50.f));
     int key_code;
     //rectangle.setFillColor(Color(100,80,80));
     //rectangle.setPosition(0.0f, 550.0f);
-
-
+    vector<Object *> objects = read_objects("objects.txt");
 
     while (window.isOpen())
     {
@@ -281,7 +351,6 @@ int main()
         player.draw(window);
         window.display();
     }
-
-    delete objects;
+    //delete objects;
     return 0;
 }
