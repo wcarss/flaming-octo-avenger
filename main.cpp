@@ -71,7 +71,7 @@ public:
     }
 
     Object(String name, String str, Vector2f pos, Vector2f size, bool passable) {
-        this->texture.loadFromFile(str);
+        this->texture.loadFromFile(String("images/") + str);
         this->texture.setRepeated(true);
         this->texture.setSmooth(true);
         this->sprite.setTexture(this->texture);
@@ -129,7 +129,7 @@ public:
         this->max_velocity = Vector2f(15.f, 15.f);
         this->min_velocity = Vector2f(-15.f, -15.f);
         this->acceleration = 1.1f;
-        if (!texture.loadFromFile("player.png")) {
+        if (!texture.loadFromFile("images/player.png")) {
             cerr<<"Failed to load texture."<<endl;
         }
         this->texture.setSmooth(true);
