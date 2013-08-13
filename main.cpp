@@ -304,9 +304,10 @@ int main()
                     break;
             }
         }
-        view.rotate(0.1);
-        window.setView(view);
         player.controls();
+//        view.rotate(0.1);
+        view.setCenter(player.sprite.getPosition());
+        window.setView(view);
         player.update_position(objects, object_count);
 
         window.clear(Color(4,4,4));
