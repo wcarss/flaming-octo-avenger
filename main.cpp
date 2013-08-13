@@ -190,7 +190,7 @@ public:
         }
     }
 
-    void update_position(vector<Object *> objects, int object_count) {
+    void update_position(vector<Object *> objects) {
         float min_x_position = -1000;
         float max_x_position = 7000;
         float min_y_position = -1000;
@@ -283,7 +283,6 @@ int main()
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     View view = window.getDefaultView();
     Player player(100.f, 100.f);
-    int object_count = 6;
     int key_code;
     vector<Object *> objects = read_objects("objects.txt");
 
@@ -308,7 +307,7 @@ int main()
 //        view.rotate(0.1);
         view.setCenter(player.sprite.getPosition());
         window.setView(view);
-        player.update_position(objects, object_count);
+        player.update_position(objects);
 
         window.clear(Color(4,4,4));
         for (vector<Object *>::iterator it = objects.begin(); it != objects.end(); it++) {
