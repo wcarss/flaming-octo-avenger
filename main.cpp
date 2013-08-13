@@ -191,10 +191,10 @@ public:
     }
 
     void update_position(vector<Object *> objects) {
-        float min_x_position = -1000;
-        float max_x_position = 7000;
-        float min_y_position = -1000;
-        float max_y_position = 6000;
+        float min_x_position = -8000;
+        float max_x_position = 8000;
+        float min_y_position = -8000;
+        float max_y_position = 8000;
         int i = 0;
         Object* object;
 
