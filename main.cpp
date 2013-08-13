@@ -311,8 +311,8 @@ int main()
         player.update_position(objects, object_count);
 
         window.clear(Color(4,4,4));
-        for (int i = 0; i < object_count; i++) {
-            objects[i]->draw(window);
+        for (vector<Object *>::iterator it = objects.begin(); it != objects.end(); it++) {
+            (*it)->draw(window);
         }
         player.draw(window);
         window.display();
