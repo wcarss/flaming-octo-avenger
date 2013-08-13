@@ -12,11 +12,11 @@ wall10, brown.png, 3500.0, 450.0, 100, 100, false
 wall11, brown.png, 3800.0, 450.0, 100, 100, false
 bridge, brown.png, 100.0, 400.0, 1000, 50, false
 moon, moon.png, 500.0, 100.0, 60, 49, true
-bump, brown.png, 610.0, 510.0, 60, 40, false
-bump2, brown.png, 210.0, 510.0, 60, 40, false
-bump3, brown.png, 110.0, 510.0, 60, 40, false
+bump, brown.png, 610.0, 210.0, 60, 40, false
+bump2, brown.png, 210.0, 10.0, 60, 40, false
+bump3, brown.png, 110.0, 310.0, 60, 40, false
 bump4, brown.png, -610.0, 510.0, 60, 40, false
-bump5, brown.png, 1610.0, 510.0, 60, 40, false
-bump6, brown.png, -310.0, 510.0, 60, 40, false
+bump5, brown.png, 1610.0, 310.0, 60, 40, false
+bump6, brown.png, -310.0, -110.0, 60, 40, false
 bump7, brown.png, -1210.0, 510.0, 60, 40, false
-bump8, brown.png, -4010.0, 510.0, 600, 400, false
+bump8, brown.png, -4010.0, 210.0, 600, 400, false
