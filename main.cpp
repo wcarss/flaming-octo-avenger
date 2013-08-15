@@ -282,7 +282,7 @@ int main()
 {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     View view = window.getDefaultView();
-    Player player(100.f, 100.f);
+    Player player(90.f, 90.f);
     int key_code;
     vector<Object *> objects = read_objects("objects.txt");
 
