@@ -278,19 +278,16 @@ vector<Object *> read_objects(string s) {
     return objects;
 }
 
-int main()
-{
+int main() {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     View view = window.getDefaultView();
     Player player(90.f, 90.f);
     int key_code;
     vector<Object *> objects = read_objects("objects.txt");
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             switch(event.type) {
                 case Event::Closed:
                     window.close();
@@ -299,7 +296,7 @@ int main()
                     key_code = event.key.code;
                     if (key_code == Keyboard::Q || key_code == Keyboard::Escape) {
                         window.close();
-                        }
+                    }
                     break;
             }
         }
