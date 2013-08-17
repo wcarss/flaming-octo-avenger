@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <cstring>
 
 using namespace sf;
@@ -61,8 +62,10 @@ public:
     FloatRect left;
     FloatRect right;
     string name;
+    Vector2f size;
 
     void setSize(Vector2f size) {
+        this->size = size;
         FloatRect current_bounds = this->sprite.getGlobalBounds();
         float scale_x = size.x / current_bounds.width;
         float scale_y = size.y / current_bounds.height;
@@ -77,6 +80,7 @@ public:
         this->sprite.setTexture(this->texture);
         this->sprite.setPosition(pos);
         this->passable = passable;
+        this->size = size;
         setSize(size);
         this->middle = FloatRect(pos, size);
         this->top = FloatRect(pos, Vector2f(size.x, 1));
@@ -111,6 +115,24 @@ public:
 
     void draw(RenderWindow& window) {
         window.draw(sprite);
+    }
+
+    void update_position() {
+        this->move(-3, 0);
+    }
+
+    void move(float x, float y) {
+        Vector2f pos;
+        Vector2f size;
+
+        this->sprite.move(x, y);
+        pos = this->sprite.getPosition();
+        size = this->size;
+        this->middle = FloatRect(pos, size);
+        this->top = FloatRect(pos, Vector2f(size.x, 1));
+        this->bottom = FloatRect(Vector2f(pos.x, pos.y + (size.y - 1)), Vector2f(size.x, 1));
+        this->left = FloatRect(pos, Vector2f(1, size.y));
+        this->right = FloatRect(Vector2f(pos.x + size.x, pos.y), Vector2f(1, size.y));
     }
 };
 
@@ -278,14 +300,20 @@ vector<Object *> read_objects(string s) {
     return objects;
 }
 
+bool off_left(Object *o) {
+    return o->sprite.getPosition().x < 0;
+}
+
 int main() {
     RenderWindow window(VideoMode(800, 600), "Flaming Octo Avenger!");
     View view = window.getDefaultView();
     Player player(90.f, 90.f);
     int key_code;
+    int count;
     vector<Object *> objects = read_objects("objects.txt");
 
     while (window.isOpen()) {
+        count += 1;
         Event event;
         while (window.pollEvent(event)) {
             switch(event.type) {
@@ -307,8 +335,20 @@ int main() {
         player.update_position(objects);
 
         window.clear(Color(4,4,4));
+        if (count % 90 == 0) {
+            objects.push_back(new Object("random", "brown.png", Vector2f(1900, 50), Vector2f(50, 50), false));
+            objects.push_back(new Object("random", "brown.png", Vector2f(1600, 150), Vector2f(75, 50), false));
+            objects.push_back(new Object("random", "brown.png", Vector2f(1400, 350), Vector2f(70, 85), false));
+            objects.push_back(new Object("random", "brown.png", Vector2f(2100, 550), Vector2f(80, 65), false));
+            objects.push_back(new Object("random", "brown.png", Vector2f(1300, 750), Vector2f(30, 55), false));
+        }
         for (vector<Object *>::iterator it = objects.begin(); it != objects.end(); it++) {
             (*it)->draw(window);
+            (*it)->update_position();
+        }
+        if (count % 500 == 0) {
+            objects.erase(remove_if(objects.begin(), objects.end(), off_left), objects.end());
+            count = 0;
         }
         player.draw(window);
         window.display();
